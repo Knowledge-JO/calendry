@@ -1,12 +1,12 @@
 import { Response } from "express";
-import { google } from "googleapis";
+import { calendar } from "@googleapis/calendar";
 import { IReq } from "../middlewares/auth";
 
 async function getCalendars(req: IReq, res: Response) {
   const oAuth2Client = req.auth;
-  const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
+  const c_v3 = calendar({ version: "v3", auth: oAuth2Client });
 
-  const resp = await calendar.calendars.get({
+  const resp = await c_v3.calendars.get({
     calendarId:
       "81b4f9e40f460480b693f2be6d126494a970b28efd06d8a6df79e0767eb0c5e1@group.calendar.google.com",
   });
@@ -16,10 +16,9 @@ async function getCalendars(req: IReq, res: Response) {
 
 async function createCalendar(req: IReq, res: Response) {
   const oAuth2Client = req.auth;
-  const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
-  const resp = await calendar.calendars.insert({
+  const c_v3 = calendar({ version: "v3", auth: oAuth2Client });
+  const resp = await c_v3.calendars.insert({
     requestBody: {
-      id: "telexcalendar@group.calendar.google.comar",
       summary: "Telex calendar test",
       conferenceProperties: {
         allowedConferenceSolutionTypes: [
@@ -36,8 +35,8 @@ async function createCalendar(req: IReq, res: Response) {
 
 async function createEvent(req: IReq, res: Response) {
   const oAuth2Client = req.auth;
-  const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
-  const resp = await calendar.events.insert({
+  const c_v3 = calendar({ version: "v3", auth: oAuth2Client });
+  const resp = await c_v3.events.insert({
     calendarId:
       "81b4f9e40f460480b693f2be6d126494a970b28efd06d8a6df79e0767eb0c5e1@group.calendar.google.com",
     sendUpdates: "all",
