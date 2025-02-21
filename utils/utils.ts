@@ -1,7 +1,8 @@
 import path from "path";
-import { Credentials, OAuth2Client } from "google-auth-library";
+
 import fs from "fs";
 import https from "https";
+import { Credentials, OAuth2Client } from "../google";
 
 const TOKEN_PATH = path.join(process.cwd(), "token.json");
 
