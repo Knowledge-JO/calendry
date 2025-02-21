@@ -4,29 +4,19 @@
       "name": "Knowledge"
     },
     "date": {
-      "created_at": "2025-02-20",
-      "updated_at": "2025-02-20"
+      "created_at": "2025-02-21",
+      "updated_at": "2025-02-21"
     },
     "descriptions": {
       "app_description": "Calendry is a google calendar integration that helps you manage your schedule, events and tasks on telex.",
-      "app_logo": "URL to the application logo.",
+      "app_logo": "https://indigo-absolute-stork-664.mypinata.cloud/ipfs/bafkreibvjytx4ovfhl646xvotreii4gyseucnx6nrzpdakzccmukvmd5ee",
       "app_name": "Calendry",
-      "app_url": "URL to the application or service.",
+      "app_url": "https://calendry.onrender.com",
       "background_color": "#HEXCODE"
     },
     "integration_category": "Project Management",
     "integration_type": "output",
-    "is_active": false,
-    "output": [
-      {
-        "label": "output_channel_1",
-        "value": true
-      },
-      {
-        "label": "output_channel_2",
-        "value": false
-      }
-    ],
+    "is_active": true,
     "key_features": [
       "Feature description 1.",
       "Feature description 2.",
@@ -36,7 +26,7 @@
     "permissions": {
       "monitoring_user": {
         "always_online": true,
-        "display_name": "Performance Monitor"
+        "display_name": "Calendry"
       }
     },
     "settings": [
