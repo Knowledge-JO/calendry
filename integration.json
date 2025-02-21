@@ -18,10 +18,8 @@
     "integration_type": "output",
     "is_active": true,
     "key_features": [
-      "Feature description 1.",
-      "Feature description 2.",
-      "Feature description 3.",
-      "Feature description 4."
+      "Create events on google calendar",
+      "View and manage events on google calendar"
     ],
     "permissions": {
       "monitoring_user": {
@@ -37,7 +35,7 @@
         "default": "/create"
       }
     ],
-    "tick_url": "URL for subscribing to Telex's clock.",
-    "target_url": "Optional URL for getting data from the Telex channel"
+    "tick_url": "https://calendry.onrender.com/webhook",
+    "target_url": "https://calendry.onrender.com/webhook"
   }
 }

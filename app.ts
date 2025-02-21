@@ -4,10 +4,12 @@ import dotenv from "dotenv";
 import cron from "node-cron";
 import authRoute from "./routes/auth";
 import calenderRoute, { authWrapper } from "./routes/calender";
+import telexRoute from "./routes/telex";
 import cors from "cors";
 import integration from "./integration.json";
 
 import { keepAlive } from "./utils/utils";
+
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -15,6 +17,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors({ origin: "*" }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "active" });
@@ -27,6 +30,7 @@ app.get("/integration.json", (req, res) => {
 app.use("/auth", authRoute);
 
 app.use("/calendars", authWrapper, calenderRoute);
+app.use(telexRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
