@@ -15,7 +15,7 @@
       "background_color": "#HEXCODE"
     },
     "integration_category": "Project Management",
-    "integration_type": "output",
+    "integration_type": "modifier",
     "is_active": true,
     "key_features": [
       "Create events on google calendar",
@@ -25,14 +25,29 @@
       "monitoring_user": {
         "always_online": true,
         "display_name": "Calendry"
-      }
+      },
+      "events": ["Calendry create event"]
     },
     "settings": [
       {
-        "label": "Create events",
+        "label": "Username",
         "type": "text",
         "required": true,
-        "default": "/create"
+        "default": "random-id"
+      },
+      {
+        "label": "Alert Admin",
+        "type": "multi-checkbox",
+        "required": true,
+        "default": "Super-Admin",
+        "options": ["Super-Admin", "Admin", "Manager", "Developer"]
+      },
+      {
+        "label": "Gender",
+        "type": "radio",
+        "required": true,
+        "default": "Female",
+        "options": ["Male", "Female"]
       }
     ],
     "tick_url": "https://calendry.onrender.com/webhook",
