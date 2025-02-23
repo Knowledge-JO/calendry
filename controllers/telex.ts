@@ -9,7 +9,7 @@ type SettingType = {
 };
 
 type TelexBodyType = {
-  body: string;
+  message: string;
   settings: SettingType[];
 };
 
@@ -43,7 +43,7 @@ const stripHTMLTags = (str: string) => str.replace(/<[^>]*>/g, "");
 export async function webhook(req: Request, res: Response) {
   const body: TelexBodyType = req.body;
 
-  const text = body.body;
+  const text = body.message;
 
   const [user] = body.settings;
   console.log(body, { user, text, settings: body.settings });
