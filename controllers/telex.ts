@@ -46,7 +46,7 @@ export async function webhook(req: Request, res: Response) {
   const text = body.body;
 
   const [user] = body.settings;
-
+  console.log(body, { user, text, settings: body.settings });
   const cleanedText = stripHTMLTags(text);
 
   const username = user.default;
@@ -92,3 +92,10 @@ function selectEventType(text: string, username: string) {
       break;
   }
 }
+
+// steps
+/**
+ * Event steps
+ * /create
+ * 1. check username - if not availn
+ */
