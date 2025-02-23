@@ -15,7 +15,7 @@
       "background_color": "#HEXCODE"
     },
     "integration_category": "Project Management",
-    "integration_type": "modifier",
+    "integration_type": "output",
     "is_active": true,
     "key_features": [
       "Create events on google calendar",
