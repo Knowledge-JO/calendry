@@ -1,7 +1,11 @@
 import fs from "fs";
-import { generateAuthUrl, getAuthTokens, TOKEN_PATH } from "../utils/utils";
+import { TOKEN_PATH } from "../utils/utils";
 import { Request, Response } from "express";
-import { oAuth2Client } from "../oAuth/oAuthClient";
+import {
+  oAuth2Client,
+  generateAuthUrl,
+  getAuthTokens,
+} from "../oAuth/oAuthClient";
 
 async function login(req: Request, res: Response) {
   getAuthTokens((result) => {

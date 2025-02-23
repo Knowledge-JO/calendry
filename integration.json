@@ -26,28 +26,14 @@
         "always_online": true,
         "display_name": "Calendry"
       },
-      "events": ["Calendry create event"]
+      "events": ["Calendry"]
     },
     "settings": [
       {
-        "label": "Username",
+        "label": "username",
         "type": "text",
         "required": true,
         "default": "random-id"
-      },
-      {
-        "label": "Alert Admin",
-        "type": "multi-checkbox",
-        "required": true,
-        "default": "Super-Admin",
-        "options": ["Super-Admin", "Admin", "Manager", "Developer"]
-      },
-      {
-        "label": "Gender",
-        "type": "radio",
-        "required": true,
-        "default": "Female",
-        "options": ["Male", "Female"]
       }
     ],
     "tick_url": "https://calendry.onrender.com/webhook",

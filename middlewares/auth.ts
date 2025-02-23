@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getAuthTokens } from "../utils/utils";
-import { oAuth2Client } from "../oAuth/oAuthClient";
+import { oAuth2Client, getAuthTokens } from "../oAuth/oAuthClient";
 import { StatusCodes } from "http-status-codes";
 import { OAuth2Client } from "../google";
 

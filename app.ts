@@ -9,6 +9,7 @@ import cors from "cors";
 import integration from "./integration.json";
 
 import { keepAlive } from "./utils/utils";
+import { connectDB } from "./db/connect";
 
 dotenv.config();
 
@@ -32,9 +33,18 @@ app.use("/auth", authRoute);
 app.use("/calendars", authWrapper, calenderRoute);
 app.use(telexRoute);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+function start() {
+  connectDB(process.env.MONGO_URI || "")
+    .then(() => {
+      console.log("DB connected");
+      app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+      });
+    })
+    .catch((err) => console.log(err));
+}
+
+start();
 
 cron.schedule("*/5 * * * *", () => {
   keepAlive("https://calendry.onrender.com");
