@@ -64,7 +64,7 @@ export async function webhook(req: Request, res: Response) {
 
 async function sendEventResponse(eventType: string) {
   await axios.get(
-    `${telexWebhookURL}&event_name=${eventType}&message=${"Enter your username to continue..."}&status=success`
+    `${telexWebhookURL}&event_name=${eventType}&message=${"🚧👷‍♂️ Event under construction..."}&status=success`
   );
 }
 
