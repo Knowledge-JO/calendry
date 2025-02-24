@@ -52,6 +52,12 @@ export async function webhook(req: Request, res: Response) {
   const cleanedText = stripHTMLTags(text);
 
   const username = user.default;
+  console.log(body);
+  if (username == "random-id" || username == "") {
+    sendEventResponse("No username", "Update username in app settings");
+    res.status(StatusCodes.ACCEPTED);
+    return;
+  }
 
   const [possibleEvent] = cleanedText.split(" ");
 
@@ -75,7 +81,9 @@ export async function sendEventResponse(eventName: string, message: string) {
 const help = `
 Calendry -- Usage
 
-Pre-requisite: Set a username in the app settings
+Pre-requisite: 
+  - Set a username in the app settings
+  - Set announcement channel ID in app settings
 
 /create - Create a new event
 /update - Update an existing event

@@ -36,6 +36,7 @@
         "default": "random-id"
       }
     ],
+
     "tick_url": "https://calendry.onrender.com/webhook",
     "target_url": "https://calendry.onrender.com/webhook"
   }
