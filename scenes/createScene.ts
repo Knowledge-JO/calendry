@@ -59,6 +59,10 @@ export async function createEventStep(username: string, text: string) {
 
   if (!currCreateState) return;
 
+  for(const resp of botText){
+    if(text == resp) return
+  }
+
   if (buildCreateEventData.get(username)) {
     const currValues = buildCreateEventData.get(username);
     if (currCreateState == "start" || currCreateState == "end") {
@@ -92,10 +96,6 @@ export async function createEventStep(username: string, text: string) {
     buildCreateEventData.set(username, {
       [currCreateState]: text,
     });
-  }
-
-  for(const resp of botText){
-    if(text == resp) return
   }
 
   switch (currCreateState) {
