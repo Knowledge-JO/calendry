@@ -72,6 +72,19 @@ export async function sendEventResponse(eventName: string, message: string) {
   await axios.get(link);
 }
 
+const help = `
+Calendry -- Usage
+
+Pre-requisite: Set a username in the app settings
+
+/create - Create a new event
+/update - Update an existing event
+/get - Get all events or an existing event
+/delete - Delete an existing event
+/end - End event prematurely
+
+`;
+
 async function selectEventType(text: string, username: string) {
   const scene = eventScene.get(username)?.scene;
   if (text == "/end") {
@@ -88,6 +101,9 @@ async function selectEventType(text: string, username: string) {
     return;
   }
   switch (text) {
+    case "/help":
+      await sendEventResponse(events.update, help);
+      break;
     case "/create":
       // Enter create scene
       eventEmitter.emit("create", username, events.create);
