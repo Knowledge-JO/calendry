@@ -53,15 +53,15 @@ export async function webhook(req: Request, res: Response) {
 
   const username = user.default;
   console.log(body);
-  if (username == "random-id" || username == "") {
-    sendEventResponse("No username", "Update username in app settings");
-    res.status(StatusCodes.ACCEPTED);
-    return;
-  }
 
   const [possibleEvent] = cleanedText.split(" ");
 
   if (commandList.includes(cleanedText)) {
+    if (username == "random-id" || username == "") {
+      sendEventResponse("No username", "Update username in app settings");
+      res.status(StatusCodes.ACCEPTED);
+      return;
+    }
     selectEventType(possibleEvent, username);
   } else {
     stateSteps(cleanedText, username);
