@@ -7,6 +7,11 @@ export const events = {
   delete: "Calendry - Delete Event",
 };
 
+export type SceneDataType = {
+  scene: EventSceneType;
+  time: number;
+};
+
 export const eventScene = new Map<string, SceneDataType>();
 
 export type EventSceneType = "create" | "update" | "get" | "delete";
@@ -18,11 +23,6 @@ export const commandList = [
   "/delete",
   "/end",
 ];
-
-export type SceneDataType = {
-  scene: EventSceneType;
-  time: number;
-};
 
 export type StateDataType = {
   scene: EventSceneType;

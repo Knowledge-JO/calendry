@@ -10,6 +10,7 @@ import {
 } from "../scenes/scene";
 import { createEventListener, createEventStep } from "../scenes/createScene";
 import { getEventListener } from "../scenes/getScene";
+import { timeNowInSec } from "../utils/utils";
 
 type SettingType = {
   label: string;
@@ -71,7 +72,7 @@ export async function sendEventResponse(eventName: string, message: string) {
   await axios.get(link);
 }
 
-function selectEventType(text: string, username: string) {
+async function selectEventType(text: string, username: string) {
   const scene = eventScene.get(username)?.scene;
   if (text == "/end") {
     if (!scene) {
@@ -92,16 +93,29 @@ function selectEventType(text: string, username: string) {
       eventEmitter.emit("create", username, events.create);
       break;
 
-    // case "/update":
-    // break
+    case "/update":
+      eventScene.set(username, { scene: "update", time: timeNowInSec() });
+      await sendEventResponse(
+        events.update,
+        "🚧👷‍♂️ Event under construction..."
+      );
+      eventScene.delete(username);
+      break;
 
     // Enter get scene
     case "/get":
       eventEmitter.emit("get", username, events.get);
       break;
 
-    // case "/delete":
-    //  break
+    case "/delete":
+      eventScene.set(username, { scene: "delete", time: timeNowInSec() });
+      await sendEventResponse(
+        events.update,
+        "🚧👷‍♂️ Event under construction..."
+      );
+      eventScene.delete(username);
+      break;
+
     default:
       break;
   }
