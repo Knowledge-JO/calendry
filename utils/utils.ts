@@ -13,4 +13,8 @@ function keepAlive(url: string) {
     });
 }
 
-export { TOKEN_PATH, keepAlive };
+function timeNowInSec() {
+  return Math.floor(Date.now() / 1000);
+}
+
+export { TOKEN_PATH, keepAlive, timeNowInSec };

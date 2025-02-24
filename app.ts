@@ -10,6 +10,7 @@ import integration from "./integration.json";
 
 import { keepAlive } from "./utils/utils";
 import { connectDB } from "./db/connect";
+// import { clearScene } from "./scenes/scene";
 
 dotenv.config();
 
@@ -48,5 +49,6 @@ start();
 
 cron.schedule("*/5 * * * *", () => {
   keepAlive("https://calendry.onrender.com");
+  // clearScene();
   console.log("Pinging the server every 5 minutes");
 });

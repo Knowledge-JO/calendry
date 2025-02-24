@@ -1,5 +1,15 @@
 import axios from "axios";
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { eventEmitter } from "../utils/eventEmitter";
+import {
+  commandList,
+  events,
+  eventScene,
+  EventSceneType,
+} from "../scenes/scene";
+import { createEventListener, createEventStep } from "../scenes/createScene";
+import { getEventListener } from "../scenes/getScene";
 
 type SettingType = {
   label: string;
@@ -13,14 +23,7 @@ type TelexBodyType = {
   settings: SettingType[];
 };
 
-const events = {
-  create: "Calendry - Create Event",
-  update: "Calendry - Update Event",
-  get: "Calendry - Get Event",
-  delete: "Calendry - Delete Event",
-};
-
-const telexWebhookURL = `https://ping.telex.im/v1/webhooks/01950f5b-efdf-7cd2-b53d-80745f4e3c69?username=Calendry`;
+const telexWebhookURL = `https://ping.telex.im/v1/return/01950f5b-efdf-7cd2-b53d-80745f4e3c69?username=Calendry`;
 
 //event_name=Calendry&message=This is a sample webhook&status=success&username=Calendry
 // 01950f5b-efdf-7cd2-b53d-80745f4e3c69
@@ -34,9 +37,7 @@ const telexWebhookURL = `https://ping.telex.im/v1/webhooks/01950f5b-efdf-7cd2-b5
  * 4. Get
  */
 
-type EventStateType = "create" | "update" | "get" | "delete";
-
-const eventState = new Map<string, EventStateType>(); // username and the curr state
+// username and the curr state
 
 const stripHTMLTags = (str: string) => str.replace(/<[^>]*>/g, "");
 
@@ -46,52 +47,93 @@ export async function webhook(req: Request, res: Response) {
   const text = body.message;
 
   const [user] = body.settings;
-  console.log(body, { user, text, settings: body.settings });
+
   const cleanedText = stripHTMLTags(text);
 
   const username = user.default;
 
   const [possibleEvent] = cleanedText.split(" ");
 
-  const eventType = selectEventType(possibleEvent, username);
+  if (commandList.includes(cleanedText)) {
+    selectEventType(possibleEvent, username);
+  } else {
+    stateSteps(cleanedText, username);
+  }
 
-  if (eventType) sendEventResponse(eventType);
-
-  console.log({ cleanedText, text, settings: body.settings, username });
-
-  res.status(202).json({ message: "success" });
+  res.status(StatusCodes.ACCEPTED).json({ message: "success" });
 }
 
-async function sendEventResponse(eventType: string) {
-  await axios.get(
-    `${telexWebhookURL}&event_name=${eventType}&message=${"🚧👷‍♂️ Event under construction..."}&status=success`
-  );
+// 🚧👷‍♂️ Event under construction...
+export async function sendEventResponse(eventName: string, message: string) {
+  const link = `${telexWebhookURL}&event_name=${encodeURIComponent(
+    eventName
+  )}&message=${encodeURIComponent(message)}&status=success`;
+  await axios.get(link);
 }
 
 function selectEventType(text: string, username: string) {
+  const scene = eventScene.get(username)?.scene;
+  if (text == "/end") {
+    if (!scene) {
+      sendEventResponse("No event", "No event triggered to end.");
+      return;
+    }
+    closeScene(scene, username);
+    return;
+  }
+  if (scene) {
+    if (commandList.includes(text))
+      eventEmitter.emit(scene, username, events[scene]);
+    return;
+  }
   switch (text) {
     case "/create":
-      if (eventState.get(username) == "create") {
-        return `${events.create} Triggered, please continue process...`;
-      }
-      eventState.set(username, "create");
-      return events.create;
-    case "/update":
-      if (eventState.get(username) == "update") {
-        return `${events.create} Triggered, please continue process...`;
-      }
-      eventState.set(username, "update");
-      return events.update;
+      // Enter create scene
+      eventEmitter.emit("create", username, events.create);
+      break;
+
+    // case "/update":
+    // break
+
+    // Enter get scene
     case "/get":
-      eventState.set(username, "get");
-      return events.get;
-    case "/delete":
-      eventState.set(username, "delete");
-      return events.delete;
+      eventEmitter.emit("get", username, events.get);
+      break;
+
+    // case "/delete":
+    //  break
     default:
       break;
   }
 }
+
+async function stateSteps(text: string, username: string) {
+  const scene = eventScene.get(username)?.scene;
+  switch (scene) {
+    case "create":
+      await createEventStep(username, text);
+      break;
+
+    // case "/update":
+    // break
+
+    // case "/get":
+    //   break;
+
+    // case "/delete":
+    //  break
+    default:
+      break;
+  }
+}
+
+async function closeScene(scene: EventSceneType, username: string) {
+  eventScene.delete(username);
+  await sendEventResponse(events[scene], "Event closed");
+}
+
+createEventListener();
+getEventListener();
 
 // steps
 /**
