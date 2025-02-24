@@ -31,6 +31,8 @@ type CED<T> = {
   [key in keyof T]: T[key];
 };
 
+const botText = ["What is the title of your event?","Enter a description", "Enter start time in this format [ MM/DD/YYY, 12:00 AM/PM ]", "Enter end time in this format [ MM/DD/YYY, 12:00 AM/PM ]","Enter number of minutes before event for notification. Enter 0 for no notification", "Creating event...."]
+
 const eventCreateState = new Map<string, CreateStateDataType>();
 const buildCreateEventData = new Map<string, CED<CreateEventDataType>>();
 
@@ -56,6 +58,10 @@ export async function createEventStep(username: string, text: string) {
   const currCreateState = eventCreateState.get(username)?.state;
 
   if (!currCreateState) return;
+
+  for(const resp of botText){
+    if(text == resp) return
+  }
 
   if (buildCreateEventData.get(username)) {
     const currValues = buildCreateEventData.get(username);
