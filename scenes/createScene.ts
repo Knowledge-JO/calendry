@@ -44,10 +44,10 @@ const eventCreateState = new Map<string, CreateStateDataType>();
 const buildCreateEventData = new Map<string, CED<CreateEventDataType>>();
 
 export function createEventListener() {
-  eventEmitter.on("create", (username, eventName) => {
+  eventEmitter.on("create", async (username, eventName) => {
     const scene = eventScene.get(username)?.scene;
     if (scene == "create") {
-      sendEventResponse(
+      await sendEventResponse(
         `${eventName} already triggered`,
         "please continue process..."
       );
@@ -56,7 +56,7 @@ export function createEventListener() {
     }
     eventScene.set(username, { scene: "create", time: timeNowInSec() });
     eventCreateState.set(username, { scene: "create", state: "summary" });
-    sendEventResponse(eventName, "What is the title of your event?");
+    await sendEventResponse(eventName, "What is the title of your event?");
     console.log("Event triggered");
   });
 }

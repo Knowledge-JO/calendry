@@ -9,14 +9,14 @@ import cors from "cors";
 import integration from "./integration.json";
 
 import { keepAlive } from "./utils/utils";
-import { connectDB } from "./db/connect";
+// import { connectDB } from "./db/connect";
 // import { clearScene } from "./scenes/scene";
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
 
-const app = express();
+export const app = express();
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
@@ -29,23 +29,25 @@ app.get("/integration.json", (req, res) => {
   res.status(202).json(integration);
 });
 
+app.use(telexRoute);
+
 app.use("/auth", authRoute);
 
 app.use("/calendars", authWrapper, calenderRoute);
-app.use(telexRoute);
 
-function start() {
-  connectDB(process.env.MONGO_URI || "")
-    .then(() => {
-      console.log("DB connected");
-      app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-      });
-    })
-    .catch((err) => console.log(err));
-}
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+// function start() {
+//   connectDB(process.env.MONGO_URI || "")
+//     .then(() => {
+//       console.log("DB connected");
 
-start();
+//     })
+//     .catch((err) => console.log(err));
+// }
+
+// start();
 
 cron.schedule("*/5 * * * *", () => {
   keepAlive("https://calendry.onrender.com");

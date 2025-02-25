@@ -24,7 +24,7 @@ type TelexBodyType = {
   settings: SettingType[];
 };
 
-const telexWebhookURL = `https://ping.telex.im/v1/return/01953756-ab71-75ec-b8c1-edb310bca6be?username=Calendry`;
+const telexWebhookURL = `https://ping.telex.im/v1/webhooks/01950f5b-efdf-7cd2-b53d-80745f4e3c69?username=Calendry`;
 
 //event_name=Calendry&message=This is a sample webhook&status=success&username=Calendry
 // 01950f5b-efdf-7cd2-b53d-80745f4e3c69
@@ -52,7 +52,7 @@ export async function webhook(req: Request, res: Response) {
   const cleanedText = stripHTMLTags(text);
 
   const username = user.default;
-  console.log(body);
+  // console.log(body);
 
   const [possibleEvent] = cleanedText.split(" ");
 
@@ -67,7 +67,7 @@ export async function webhook(req: Request, res: Response) {
     stateSteps(cleanedText, username);
   }
 
-  res.status(StatusCodes.ACCEPTED).json({ message: "success" });
+  res.status(StatusCodes.ACCEPTED);
 }
 
 // 🚧👷‍♂️ Event under construction...
@@ -75,7 +75,8 @@ export async function sendEventResponse(eventName: string, message: string) {
   const link = `${telexWebhookURL}&event_name=${encodeURIComponent(
     eventName
   )}&message=${encodeURIComponent(message)}&status=success`;
-  await axios.get(link);
+  const resp = await axios.get(link);
+  return resp.statusText;
 }
 
 const help = `
