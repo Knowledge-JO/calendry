@@ -25,6 +25,7 @@ Calendry is a telex integration built on google apis for creating and managing c
 
 ## Installation on Telex
 
+- Create an account on `https://telex.im`
 - Visit the app section in your org sidebar
 - Add new integration
 - Add the integration.json url to the required input
