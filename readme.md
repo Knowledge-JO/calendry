@@ -38,10 +38,14 @@ Calendry has suites of commands neccessary for interacting with the integration
 ### commands
 
 - **/help** - This gives you a rundown on all the commands available to calendry and how they work.
+  ![Create event](help-event.png)
 - **/create** - Used for creating an event
+  ![Create event](create-event.png)
 - **/update** - Used for updating an existing event
-- **/get** - Used for listing all available events or a specific event
+- **/get** - Used for listing all
+  ![Create event](get-event.png)available events or a specific event
 - **/delete** - Used for deleting an existing event
+  ![Create event](delete-event.png)
 
 ## Local installation
 
