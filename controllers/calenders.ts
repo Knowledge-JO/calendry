@@ -2,7 +2,7 @@ import { Response } from "express";
 import { calendar } from "@googleapis/calendar";
 import { IReq } from "../middlewares/auth";
 import { eventEmitter } from "../utils/eventEmitter";
-import { oAuth2Client } from "../oAuth/oAuthClient";
+// import { oAuth2Client } from "../oAuth/oAuthClient";
 
 async function getCalendars(req: IReq, res: Response) {
   const oAuth2Client = req.auth;
